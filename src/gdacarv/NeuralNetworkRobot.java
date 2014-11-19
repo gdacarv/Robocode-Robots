@@ -29,7 +29,7 @@ public class NeuralNetworkRobot extends AdvancedRobot
 
 	private static final int SAMPLE_RATE = 60;
 
-	private static DataSet movementDataSet = new DataSet(4, 2);
+	private static DataSet movementDataSet = new DataSet(2, 2);
 
 	private MultiLayerPerceptron firePerceptron;
 
@@ -60,7 +60,7 @@ public class NeuralNetworkRobot extends AdvancedRobot
 		firePerceptron.learn(NeuralNetworkDataset.firePowerTraining);
 
 		if(movementDataSet.size() > 5){
-			enemyMovementPerceptron = new MultiLayerPerceptron(TransferFunctionType.TANH, 4, /*12, 2*/4, 2); // 4, 12, 2 WORKS TANH
+			enemyMovementPerceptron = new MultiLayerPerceptron(TransferFunctionType.TANH, 2, /*12, 2*/4, 2); // 4, 12, 2 WORKS TANH
 			MomentumBackpropagation learningRule = new MomentumBackpropagation();
 			learningRule.setLearningRate(0.01);
 			learningRule.setMaxIterations(100000);
@@ -149,12 +149,12 @@ public class NeuralNetworkRobot extends AdvancedRobot
 		if(enemyMovementPerceptron != null){
 			if((enX + enY == 0 || time > enTime) && getGunHeat() == 0){
 				enTime = time + TICKS_AHEAD_PREDICTION;
-				enemyMovementPerceptron.setInput(e.getHeading()/360, e.getVelocity()/Rules.MAX_VELOCITY, eX, eY);
+				enemyMovementPerceptron.setInput(e.getHeading()/360, e.getVelocity()/Rules.MAX_VELOCITY);
 				enemyMovementPerceptron.calculate();
 				double[] pos = enemyMovementPerceptron.getOutput();
 
-				enX = Math.max(0, Math.min(getBattleFieldWidth(), pos[0]*getBattleFieldWidth()));
-				enY = Math.max(0, Math.min(getBattleFieldHeight(), pos[1]*getBattleFieldHeight()));
+				enX = Math.max(0, Math.min(getBattleFieldWidth(), (eX+pos[0])*getBattleFieldWidth()));
+				enY = Math.max(0, Math.min(getBattleFieldHeight(), (eY+pos[1])*getBattleFieldHeight()));
 				
 
 				double turn = normalizeBearing(absoluteBearing(getX(), getY(), enX, enY) - getGunHeading());
@@ -180,7 +180,7 @@ public class NeuralNetworkRobot extends AdvancedRobot
 			//System.err.println("Entrou collect. time = " + time + " bufferIndex = " + bufferIndex + " lastTime = " + lastTime + " nextSample = " + nextSample);
 			if(dataBuffer[bufferIndex][2] + dataBuffer[bufferIndex][3] > 0){ // Exist previously data
 				System.err.println("Saved data: [" + dataBuffer[bufferIndex][0] + ", " + dataBuffer[bufferIndex][1] + ", " + dataBuffer[bufferIndex][2] + ", " + dataBuffer[bufferIndex][3] + ", " + eX + ", " + eY + "]");
-				movementDataSet.addRow(Arrays.copyOf(dataBuffer[bufferIndex], 4), new double[]{ eX, eY});
+				movementDataSet.addRow(Arrays.copyOf(dataBuffer[bufferIndex], 2), new double[]{ eX-dataBuffer[bufferIndex][2], eY-dataBuffer[bufferIndex][3]});
 				dataBuffer[bufferIndex][2] = dataBuffer[bufferIndex][3] = 0;
 			}
 			if(time >= nextSample){
