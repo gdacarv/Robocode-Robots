@@ -1,0 +1,6 @@
+;--++ This is javadb type file
+;; Description : Data for robocode parameters and action (attribute type)
+arguments-database
+robotscanned symbolic hitbybullet symbolic hitwall symbolic hitrobot symbolic energy numerical gunheading numerical action symbolic
+false true false false 50 0 escape 
+true false false false 100 0 fire 

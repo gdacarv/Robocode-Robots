@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/Users/Gustavo/robocode/libs/codesize-1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/Gustavo/robocode/libs/picocontainer-2.14.2.jar"/>
+	<classpathentry kind="lib" path="/Users/Gustavo/robocode/libs/robocode.battle-1.9.0.0.jar"/>
+	<classpathentry kind="lib" path="/Users/Gustavo/robocode/libs/robocode.core-1.9.0.0.jar"/>
+	<classpathentry kind="lib" path="/Users/Gustavo/robocode/libs/robocode.host-1.9.0.0.jar"/>
+	<classpathentry kind="lib" path="/Users/Gustavo/robocode/libs/robocode.jar"/>
+	<classpathentry kind="lib" path="/Users/Gustavo/robocode/libs/robocode.repository-1.9.0.0.jar"/>
+	<classpathentry kind="lib" path="/Users/Gustavo/robocode/libs/robocode.sound-1.9.0.0.jar"/>
+	<classpathentry kind="lib" path="/Users/Gustavo/robocode/libs/robocode.ui-1.9.0.0.jar"/>
+	<classpathentry kind="lib" path="/Users/Gustavo/robocode/libs/robocode.ui.editor-1.9.0.0.jar"/>
+	<classpathentry kind="lib" path="/Users/Gustavo/robocode/libs/roborumble.jar"/>
+	<classpathentry kind="lib" path="libs/jaDTi-0.6.1.jar"/>
+	<classpathentry kind="lib" path="libs/jFuzzyLogic_core.jar"/>
+	<classpathentry kind="lib" path="libs/neuroph-core-2.8.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,38 @@
+;--++ This is javadb type file
+;; Description : Data for robocode parameters and action (attribute type)
+arguments-database
+robotscanned symbolic distancetorobot numerical enemyenergy numerical gunaimedtoenemy symbolic hitbybullet symbolic hitwall symbolic hitrobot symbolic energy numerical heat symbolic positionx numerical positiony numerical moving symbolic gunturning symbolic robotturning symbolic action symbolic
+; attack input
+yes 1 100 yes no no no 100 no ? ? ? ? ? fireweak
+yes 0.5 100 yes no no no 100 no ? ? ? ? ? firemedium
+yes 0.1 100 yes no no no 100 no ? ? ? ? ? firestrong
+yes 1 50 yes no no no 100 no ? ? ? ? ? firemedium
+yes 1 ? yes no no no 10 no ? ? ? ? ? fireweak
+yes 0.8 20 yes no no no 80 no ? ? ? ? ? firemedium
+yes ? ? no no no no ? ? ? ? yes ? ? aim
+no ? ? no no ? ? ? ? ? ? yes no ? turngun
+; nothing input
+no ? ? ? no ? ? ? ? ? ? yes yes ? nothing
+; movement input
+? ? ? ? ? ? ? ? ? 0.25 0.75 no ? no movesoutheast
+? ? ? ? ? ? ? ? ? 0.25 0.25 no ? no movenortheast
+? ? ? ? ? ? ? ? ? 0.75 0.25 no ? no movenorthwest
+? ? ? ? ? ? ? ? ? 0.75 0.75 no ? no movesouthwest
+? ? ? ? ? yes ? ? ? ? ? ? ? no turnaround
+; real data from battle
+;no ? ? no yes no no 1.00 no 0.27 0.10 no yes no movenortheast
+;yes 0.68 90.40 no no no no ? no 0.27 0.10 yes no ? aim
+;yes 0.37 97.40 no no no no 13.20 yes 0.57 0.36 yes no ? aim
+;no ? ? no no no no 100.00 yes 0.40 0.43 yes yes ? nothing
+;no ? ? no no no no 100.00 yes 0.62 0.26 yes yes ? nothing
+;no ? ? no no no no 100.00 yes 0.11 0.52 yes yes ? nothing
+;no ? ? no no no no 100.00 yes 0.84 0.79 no yes no movesouthwest
+;yes 0.26 98.00 no no no no 97.00 yes 0.34 0.76 no no no movesoutheast
+;no ? ? no no no no 100.00 yes 0.18 0.26 no yes no movenortheast
+;yes 0.07 100.00 yes no no no 100.00 yes 0.29 0.49 no no no movenortheast
+;no ? ? no no no no 100.00 yes 0.64 0.13 no no no movenorthwest
+;no ? ? no no no no 100.00 yes 0.34 0.11 yes yes ? nothing
+;no ? ? no no no no 95.00 no 0.37 0.13 yes yes ? nothing
+;no ? ? no no no no 74.00 no 0.41 0.03 no no yes nothing
+;no ? ? no no yes no 74.00 no 0.41 0.03 no no yes nothing
+;no ? ? no no no no 74.00 no 0.41 0.03 no no yes nothing

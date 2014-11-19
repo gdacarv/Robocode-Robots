@@ -1,0 +1,128 @@
+FUNCTION_BLOCK shot_power	// Block definition (there may be more than one block per file)
+
+VAR_INPUT				// Define input variables
+	distancetorobot : REAL;
+	enemyenergy : REAL;
+	myenergy : REAL;
+END_VAR
+
+VAR_OUTPUT				// Define output variable
+	power : REAL;		// 0 to 3
+END_VAR
+
+FUZZIFY distancetorobot	// Fuzzify input variable 'distancetorobot': {'near', 'medium' , 'far'}
+	TERM near := trape 0 0 150 300; 
+	TERM medium := trape 175 250 450 600;
+	TERM far := trape 475 550 2000 2000;
+END_FUZZIFY
+
+FUZZIFY enemyenergy	// Fuzzify input variable 'enemyenergy': { 'low', 'mid', 'high' }
+	TERM low := trape 0 0 20 40;
+	TERM mid := trape 25 40 60 70;
+	TERM high := trape 60 70 200 200;
+END_FUZZIFY
+
+FUZZIFY myenergy	// Fuzzify input variable 'myenergy': { 'low', 'mid', 'high' }
+	TERM low := trape 0 0 20 40;
+	TERM mid := trape 25 40 60 70;
+	TERM high := trape 60 70 200 200;
+END_FUZZIFY
+
+DEFUZZIFY power			// Defuzzify output variable 'power' : {'weak', 'normal', 'strong' }
+	TERM weak := trape 0.01 0.1 0.5 1.5;
+	TERM normal := trape 1 1.5 2 2.5;
+	TERM strong := trape 2 2.5 3 3;
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 1;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'max' accumulation method
+
+	RULE 1 : IF distancetorobot IS near AND NOT myenergy IS low THEN power IS strong;
+	RULE 2 : IF distancetorobot IS near AND myenergy IS low THEN power IS normal;
+	RULE 3 : IF distancetorobot IS medium AND myenergy IS low THEN power IS weak;
+	RULE 4 : IF distancetorobot IS medium AND myenergy IS mid THEN power IS normal;
+	RULE 5 : IF distancetorobot IS medium AND myenergy IS high AND NOT enemyenergy IS high THEN power IS strong;
+	RULE 6 : IF distancetorobot IS far AND myenergy IS high AND enemyenergy IS low THEN power IS normal;
+	RULE 7 : IF distancetorobot IS far THEN power IS weak; 
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK movement	// Block definition
+
+VAR_INPUT				// Define input variables
+	x_init : REAL;
+	y_init : REAL;
+END_VAR
+
+VAR_OUTPUT				// Define output variable
+	x_end : REAL;	
+	y_end : REAL;	
+END_VAR
+
+FUZZIFY x_init	// Fuzzify input variable 'x_init': {'begin', 'middle' , 'end'}
+	TERM begin := trape 0 0 0.2 0.4; 
+	TERM middle := trape 0.3 0.4 0.6 0.7;
+	TERM end := trape 0.6 0.7 1 1;
+END_FUZZIFY
+
+FUZZIFY y_init	// Fuzzify input variable 'y_init': {'begin', 'middle' , 'end'}
+	TERM begin := trape 0 0 0.2 0.4; 
+	TERM middle := trape 0.3 0.4 0.6 0.7;
+	TERM end := trape 0.6 0.7 1 1;
+END_FUZZIFY
+
+DEFUZZIFY x_end			// Defuzzify output variable 'x_end' : {'begin', 'middle' , 'end'}
+	TERM begin := trape 0 0 0.2 0.4; 
+	TERM middle := trape 0.3 0.4 0.6 0.7;
+	TERM end := trape 0.6 0.7 1 1;
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0.15;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+DEFUZZIFY y_end			// Defuzzify output variable 'y_end' : {'begin', 'middle' , 'end'}
+	TERM begin := trape 0 0 0.2 0.4; 
+	TERM middle := trape 0.3 0.4 0.6 0.7;
+	TERM end := trape 0.6 0.7 1 1;
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0.25;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'max' accumulation method
+
+	RULE 1 : IF x_init IS begin AND y_init IS begin THEN x_end IS begin;
+	RULE 2 : IF x_init IS begin AND y_init IS begin THEN y_end IS end;
+	
+	RULE 3 : IF x_init IS begin AND y_init IS end THEN x_end IS end;
+	RULE 4 : IF x_init IS begin AND y_init IS end THEN y_end IS begin;
+	
+	RULE 5 : IF x_init IS end AND y_init IS begin THEN x_end IS end;
+	RULE 6 : IF x_init IS end AND y_init IS begin THEN y_end IS end;
+	
+	RULE 7 : IF x_init IS end AND y_init IS end THEN x_end IS begin;
+	RULE 8 : IF x_init IS end AND y_init IS end THEN y_end IS begin;
+	
+	
+	RULE 9 : IF x_init IS middle AND y_init IS end THEN x_end IS middle;
+	RULE 10 : IF x_init IS middle AND y_init IS end THEN y_end IS begin;
+	
+	RULE 11 : IF x_init IS middle AND y_init IS begin THEN x_end IS end;
+	RULE 12 : IF x_init IS middle AND y_init IS begin THEN y_end IS middle;
+	
+	RULE 13 : IF x_init IS end AND y_init IS middle THEN x_end IS begin;
+	RULE 14 : IF x_init IS end AND y_init IS middle THEN y_end IS middle;
+	
+	RULE 11 : IF x_init IS begin AND y_init IS middle THEN x_end IS middle;
+	RULE 12 : IF x_init IS begin AND y_init IS middle THEN y_end IS end;
+	
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+
